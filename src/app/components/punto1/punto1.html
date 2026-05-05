@@ -1,0 +1,63 @@
+<!-- Contenedor principal con margen superior -->
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      
+      <!-- Título de la sección -->
+      <h2 class="text-center mb-4 text-uppercase fw-bold">Próximos Eventos</h2>
+
+      <!-- Tarjeta del Slider (Bootstrap Card) -->
+      <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
+        
+        <!-- 1. PROPERTY BINDING: La imagen cambia según el índice actual -->
+        <img [src]="eventos[indiceActual].img" 
+             class="card-img-top" 
+             [alt]="eventos[indiceActual].nombre"
+             style="height: 350px; object-fit: cover;">
+
+        <!-- Cuerpo de la tarjeta -->
+        <div class="card-body p-4 bg-light">
+          
+          <!-- 2. INTERPOLACIÓN Y EXPRESIONES: Mostramos los datos del objeto actual -->
+          <h3 class="card-title fw-bold text-dark mb-2">
+            {{ eventos[indiceActual].nombre }}
+          </h3>
+          
+          <p class="card-text text-muted mb-4" style="min-height: 50px;">
+            {{ eventos[indiceActual].descripcion }}
+          </p>
+
+          <!-- Controles del Slider -->
+          <div class="d-flex justify-content-between align-items-center border-top pt-3">
+            
+            <!-- 3. EVENT BINDING: Botón para retroceder -->
+            <button class="btn btn-primary rounded-pill px-4" 
+                    (click)="anterior()" 
+                    [disabled]="indiceActual === 0 && eventos.length > 1">
+              <i class="bi bi-chevron-left"></i> Anterior
+            </button>
+
+            <!-- Indicador de página (Expresión) -->
+            <span class="fw-bold text-secondary">
+              {{ indiceActual + 1 }} / {{ eventos.length }}
+            </span>
+
+            <!-- 3. EVENT BINDING: Botón para avanzar -->
+            <button class="btn btn-primary rounded-pill px-4" 
+                    (click)="siguiente()"
+                    [disabled]="indiceActual === eventos.length - 1">
+              Siguiente <i class="bi bi-chevron-right"></i>
+            </button>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- Nota de ayuda (Opcional) -->
+      <p class="text-center mt-3 text-muted small">
+        Utiliza los botones para navegar por la lista de eventos.
+      </p>
+
+    </div>
+  </div>
+</div>
