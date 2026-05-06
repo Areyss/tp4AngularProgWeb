@@ -1,0 +1,28 @@
+<div class="container py-4">
+
+  <!-- Encabezado -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Productos Destacados</h2>
+  </div>
+
+  <!-- Cards de productos -->
+  <div class="row row-cols-1 row-cols-md-3 g-4">
+    <div class="col" *ngFor="let producto of productos">
+      <div class="card h-100 shadow-sm">
+        <img [src]="producto.img" class="card-img-top" [alt]="producto.nombre">
+        <div class="card-body">
+          <h5 class="card-title">{{ producto.nombre }}</h5>
+          <p class="card-text text-muted">{{ producto.descripcion }}</p>
+          <p class="fw-bold">${{ producto.precio }}</p>
+        </div>
+        <div class="card-footer">
+          <button class="btn w-100">
+            Agregar al carrito
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
