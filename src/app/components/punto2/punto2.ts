@@ -1,27 +1,48 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, CurrencyPipe } from '@angular/common';
+import { Producto } from '../../models/producto';
+import { ProductoService } from '../../services/producto';
 
-interface Producto {
-  nombre: string;
-  descripcion: string;
-  img: string;
-  precio: number;
-}
 
 @Component({
   selector: 'app-punto2',
-  imports: [CommonModule],
+  imports: [CommonModule, CurrencyPipe],
   templateUrl: './punto2.html',
   styleUrl: './punto2.css',
 })
 export class Punto2Component {
 
-  productos: Producto[] = [
-    { nombre: 'Notebook ASUS Zenbook S 16 16"', descripcion: 'AMD Ryzen AI 7 350 24GB DDR5 SSD 1TB Win11 3K OLED', img: 'assets/img/asus.jpg', precio: 2800250 },
-    { nombre: 'Monitor Gamer ASUS 22"', descripcion: 'FHD IPS 100Hz', img: 'assets/img/monitor.jpg', precio: 150750 },
-    { nombre: 'Teclado Mecanico ASUS ROG Strix M701', descripcion: 'RGB Wireless 2.4Ghz Bluetooth Switch NX Snow Black ESP', img: 'assets/img/teclado.jpg', precio: 294800 },
-    { nombre: 'Mouse SteelSeries Aerox 9', descripcion: 'Wireless 2.4Ghz Bluetooth Ultra LightWeight', img: 'assets/img/mouse.jpg', precio: 203550},
-    { nombre: 'Auriculares Corsair Virtuoso MAX', descripcion: 'Wireless 2.4Ghz Bluetooth Premium Dolby Atmos Black USB-C', img: 'assets/img/auriculares.jpg', precio: 676750 },
-    { nombre: 'Webcam Logitech Brio 4K UHD', descripcion: 'HDR 1080p/60FPS 720/90FPS USB-C', img: 'assets/img/webcam.jpg', precio: 252300},
-  ];
+  productos: Array<Producto>;
+  carrito: Array<Producto> = [];
+  mostrarModal: boolean = false;
+
+  constructor(private productoService: ProductoService) {
+    this.productos = this.productoService.getProductos();
+  }
+
+  agregarAlCarrito(producto: Producto) {
+    const existe = this.carrito.find(p => p.nombre === producto.nombre);
+    if (!existe) {
+      this.carrito.push(producto);
+    }
+  }
+  estaEnCarrito(producto: Producto): boolean {
+    return this.carrito.includes(producto);
+  }
+  eliminarDelCarrito(producto: Producto) {
+    this.carrito = this.carrito.filter(p => p.nombre !== producto.nombre);
+  }
+
+  get total(): number {
+    // Calcula el total sumando los precios de los productos en el carrito
+    return this.carrito.reduce((total, producto) => total + producto.precio, 0);
+    //                          ^valor anterior    ^suma actual              ^valor inicial
+  }
+  abrirModal() {
+    this.mostrarModal = true;
+  }
+
+  cerrarModal() {
+    this.mostrarModal = false;
+  }
 }
