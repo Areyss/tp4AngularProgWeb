@@ -1,0 +1,19 @@
+<div class="container text-center mt-4">
+  <h2>Juego de Memoria</h2>
+  <div class="mb-3">
+    <button class="btn btn-success me-2" (click)="iniciarJuego()">INICIAR</button>
+    <button class="btn btn-danger me-2" (click)="reiniciarJuego()">REINICIAR</button>
+    <button class="btn btn-primary" (click)="intentar()">INTENTAR</button>
+  </div>
+  <p>Intentos restantes: {{ intentos }}</p>
+  <p class="fw-bold">{{ estadoJuego }}</p>
+
+  <div class="row row-cols-4 g-3">
+    <div *ngFor="let carta of cartas; let i = index" class="col">
+      <div class="card" (click)="voltearCarta(i)">
+        <img [src]="carta.descubierta || carta.bloqueada ? 'assets/img03/'+carta.valor+'.jpg' : 'assets/img03/tapa.jpg'" 
+             class="card-img-top img-fluid" alt="carta">
+      </div>
+    </div>
+  </div>
+</div>
