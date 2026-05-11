@@ -1,0 +1,134 @@
+<div class="container mt-4">
+
+  <h2 class="mb-4">Inscripción a Cursos</h2>
+
+  <div class="card p-4">
+
+    <div class="mb-3">
+      <label>DNI</label>
+      <input type="text" class="form-control"
+      [(ngModel)]="inscripcion.dni">
+    </div>
+
+    <div class="mb-3">
+      <label>Email</label>
+      <input type="email" class="form-control"
+      [(ngModel)]="inscripcion.email">
+    </div>
+
+    <div class="mb-3">
+      <label>Curso</label>
+      <input type="text" class="form-control"
+      [(ngModel)]="inscripcion.curso">
+    </div>
+
+    <div class="mb-3">
+      <label>Fecha</label>
+      <input type="date" class="form-control"
+      [(ngModel)]="inscripcion.fechaInscripcion">
+    </div>
+
+    <div class="mb-3">
+      <label>Precio</label>
+      <input type="number"
+      class="form-control"
+      [(ngModel)]="inscripcion.precio"
+      (input)="calcularTotal()">
+    </div>
+
+    <div class="mb-3">
+      <label>Categoría</label>
+
+      <select class="form-select"
+      [(ngModel)]="inscripcion.categoriaAlumno"
+      (change)="calcularTotal()">
+
+        <option [value]="0">Seleccione</option>
+        <option [value]="1">Estudiante</option>
+        <option [value]="2">Egresado</option>
+        <option [value]="3">Particular</option>
+
+      </select>
+    </div>
+
+    <div *ngIf="inscripcion.precio > 0 && inscripcion.categoriaAlumno > 0"
+    class="alert alert-success">
+
+      Total:
+      {{ inscripcion.total | currency }}
+
+    </div>
+
+    <button class="btn btn-primary"
+    (click)="registrar()">
+
+      REGISTRAR
+
+    </button>
+
+  </div>
+
+  <hr>
+
+  <h3>Listado de Inscripciones</h3>
+
+  <table class="table table-bordered mt-3">
+
+    <thead class="table-dark">
+      <tr>
+        <th>DNI</th>
+        <th>Curso</th>
+        <th>Fecha</th>
+        <th>Total</th>
+      </tr>
+    </thead>
+
+    <tbody>
+
+      <tr *ngFor="let item of service.obtenerInscripciones()">
+
+        <td>{{ item.dni }}</td>
+
+        <td>{{ item.curso }}</td>
+
+        <td>
+          {{ item.fechaInscripcion | date:'dd/MM/yyyy' }}
+        </td>
+
+        <td>
+          {{ item.total | currency }}
+        </td>
+
+      </tr>
+
+    </tbody>
+
+  </table>
+
+  <div class="card p-3 mt-4">
+
+    <h4>Resumen</h4>
+
+    <p>
+      Estudiantes:
+      {{ service.totalPorCategoria(1) }}
+    </p>
+
+    <p>
+      Egresados:
+      {{ service.totalPorCategoria(2) }}
+    </p>
+
+    <p>
+      Particulares:
+      {{ service.totalPorCategoria(3) }}
+    </p>
+
+    <h5>
+      Total General:
+      {{ service.totalGeneral() | currency }}
+    </h5>
+
+  </div>
+
+</div>
